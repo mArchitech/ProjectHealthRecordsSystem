@@ -1,0 +1,106 @@
+digital health record system:
+
+
+# Import necessary libraries and modules
+
+# Define classes and functions for the digital health record system
+
+class User:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
+    def authenticate(self, entered_password):
+        # Compare entered password with stored password using secure password hashing
+        if verify_password(entered_password, self.password):
+            return True
+        else:
+            return False
+
+class Patient:
+    def __init__(self, patient_id, name, dob, health_data):
+        self.patient_id = patient_id
+        self.name = name
+        self.dob = dob
+        self.health_data = health_data
+
+    def get_health_data(self, user):
+        # Perform user authentication to ensure authorized access
+        if user.authenticate(user_entered_password):
+            # Return patient's health data
+            return self.health_data
+        else:
+            raise UnauthorizedAccessException("Unauthorized access to health data")
+
+    def update_health_data(self, user, health_data):
+        # Perform user authentication and authorization to ensure authorized access
+        if user.authenticate(user_entered_password) and user.has_permission("update_health_data"):
+            # Update patient's health data
+            self.health_data = health_data
+            return "Health data updated successfully"
+        else:
+            raise UnauthorizedAccessException("Unauthorized access to update health data")
+
+    # Additional methods for managing patient data and performing other operations
+
+class HealthRecordSystem:
+    def __init__(self, users, patients):
+        self.users = users
+        self.patients = patients
+
+    def login(self, username, password):
+        # Perform authentication and return user object if valid
+        for user in self.users:
+            if user.username == username:
+                if user.authenticate(password):
+                    return user
+                else:
+                    raise AuthenticationException("Invalid username or password")
+        raise AuthenticationException("Invalid username or password")
+
+    #for managing user accounts, patient data, and system operations
+
+# Main program
+if __name__ == "__main__":
+    # Create and initialize health record system object with users and patients
+    health_record_system = HealthRecordSystem(users, patients)
+    
+    # Prompt user for username and password for login
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+    
+   # Main program
+if __name__ == "__main__":
+    try:
+        # Create and initialize health record system object with users and patients
+        health_record_system = HealthRecordSystem(users, patients)
+        
+        # Prompt user for username and password for login
+        username = input("Enter username: ")
+        password = input("Enter password: ")
+        
+        try:
+            # Attempt to login and retrieve user object
+            user = health_record_system.login(username, password)
+            
+            # Perform authorized operations with the user object, e.g., access patient health data, update health data, etc.
+            
+        except AuthenticationException as ae:
+            # Handle authentication errors
+            print("Authentication error: " + ae.message)
+            
+        except UnauthorizedAccessException as uae:
+            # Handle authorization errors
+            print("Authorization error: " + uae.message)
+            
+        except Exception as ex:
+            # Handle other unexpected errors
+            print("Unexpected error: " + ex.message)
+            
+        finally:
+            # Perform necessary cleanup, logging, or other operations
+            print("Cleanup or other operations in the finally block")
+            
+    except Exception as ex:
+        # Handle top-level unexpected errors
+        print("Unexpected error: " + ex.message)
