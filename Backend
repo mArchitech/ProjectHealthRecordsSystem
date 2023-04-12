@@ -3,3 +3,34 @@ Implement APIs for patient registration, medical history, treatment plans, and b
 Set up authentication and authorization mechanisms for data privacy and compliance.
 Implement data storage and retrieval mechanisms, such as databases and cloud storage, for health records.
 Enable data integration with external systems, such as EHR systems used by hospitals and clinics.
+
+----------------------------------------------------------------
+
+Backend (Node.js with Express):
+
+// Backend API for serving health record data
+const express = require("express");
+const app = express();
+
+// Health record data
+const healthRecords = {
+  "12345": { name: "patient1", dob: "01/01/2010", /* Additional health record data */ },
+  "67890": { name: "patient2", dob: "05/15/2012", /* Additional health record data */ },
+  // ...
+};
+
+// API endpoint for retrieving health record data
+app.get("/api/health-records/:patientId", (req, res) => {
+  const { patientId } = req.params;
+
+  if (healthRecords[patientId]) {
+    res.json(healthRecords[patientId]);
+  } else {
+    res.status(404).json({ error: "Health record not found" });
+  }
+});
+
+// Start the server
+app.listen(5000, () => {
+  console.log("Server is running on port 5000");
+});
